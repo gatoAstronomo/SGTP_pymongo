@@ -13,7 +13,7 @@ def create_user():
     # Receiving data
     rut = request.json['rut']
 
-    if rut:
+    if rut not in mongo.db.users['rut']:
         id = mongo.db.users.insert_one(
             {'rut': rut}
         )
@@ -27,4 +27,4 @@ def create_user():
     
 
 if __name__ == "__main__":
-    app.run(debug=True, port=FLASK_PORT,host="0.0.0.0")  
+    app.run(debug=True, port=FLASK_PORT, host="0.0.0.0")  
