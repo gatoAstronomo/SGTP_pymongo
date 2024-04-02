@@ -34,15 +34,12 @@ def main():
     rut = "21.512.921-7"
     print(validar_rut(rut))
     print(rut_chile.format_capitalized_rut_with_dots(rut))
-    """
+    
     if validar_rut(rut):
         response = create_user(rut)
         print(response.json())
     else:
-        print("Ingrese un rut valido")"""
-    
-    
-    
+        print("Ingrese un rut valido")
     
 
 if __name__ == "__main__":
