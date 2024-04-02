@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 def create_user():
     # Receiving data
     rut = request.json['rut']
-    if not rut or rut == " ":
+    if not rut or rut == "":
         return {'message': 'Proporcione un rut'}
 
     # Revisa si existe el rut en la base de datos
