@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
+import jsonify
 
 FLASK_PORT = 8081
 MONGO_URL = "mongodb://localhost:27017/pythonmongodb"
@@ -16,12 +17,12 @@ def create_user():
     if rut:
         id = mongo.db.users.insert(
             {'rut': rut}
-            )
+        )
         response = {
             'id': str(id),
-            'rut': rut,
+            'rut': rut
         }
-        return response
+        return jsonify(response)
     else:
         return {'message': 'Faltan parametros'}
     

@@ -13,7 +13,7 @@ def create_user(rut: str):
 
 def main():
     response = create_user("este_rut_prueba")
-    print(response.json)
+    print(response.json())
     
     
     
