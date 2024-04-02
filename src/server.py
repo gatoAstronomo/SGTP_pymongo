@@ -13,7 +13,7 @@ def create_user():
     # Receiving data
     rut = request.json['rut']
     if not rut:
-        return {'message': 'Proporcione un rut'}, 400
+        return {'message': 'Proporcione un rut'}
 
     # Revisa si existe el rut en la base de datos
     exist_rut = mongo.db.users.find_one({'rut': rut})
@@ -28,7 +28,7 @@ def create_user():
         return response
 
     else:
-        return {'message': 'El rut ya existe'}, 400
+        return {'message': 'El rut ya existe'}
     
 
 if __name__ == "__main__":
