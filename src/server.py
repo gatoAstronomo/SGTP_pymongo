@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
-from rut_chile import validar
+from rut_chile import validate
 FLASK_PORT = 8081
 MONGO_URL = "mongodb://localhost:27017/pythonmongodb"
 
@@ -12,7 +12,7 @@ mongo = PyMongo(app)
 def create_user():
     # Receiving data
     rut = request.json['rut']
-    if not rut or not validar_rut(rut):
+    if not rut or not validate(rut):
         return {'message': 'Proporcione un rut valido'}
 
     # Revisa si existe el rut en la base de datos
