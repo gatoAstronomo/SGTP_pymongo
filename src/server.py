@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_pymongo import PyMongo
 
 FLASK_PORT = 8081
@@ -13,7 +13,7 @@ def create_user():
     # Receiving data
     rut = request.json['rut']
     if not rut:
-        return jsonify({'message': 'Proporcione un rut'})
+        return {'message': 'Proporcione un rut'}
 
     # Revisa si existe el rut en la base de datos
     exist_rut = mongo.db.users.find_one({'rut': rut})
@@ -25,10 +25,10 @@ def create_user():
             'id': str(id.inserted_id),
             'rut': rut
         }
-        return jsonify(response)
+        return response
 
     else:
-        return jsonify({'message': 'El rut ya existe'})
+        return {'message': 'El rut ya existe'}
     
 
 if __name__ == "__main__":
