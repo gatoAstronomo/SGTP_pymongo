@@ -23,7 +23,7 @@ def create_user():
         }
         return response
     else:
-        pass
+        return {'message': 'Faltan parametros'}
     
     
 
