@@ -6,7 +6,7 @@ SERVER_PORT = 8081
 URL = f'http://{SERVER_IP}:{SERVER_PORT}'
 
 def create_user(rut: str):
-    data = {'rut': '12341234'}
+    data = {'rut': rut}
     response = post(f'{URL}/users', json=data)
     
     return response
