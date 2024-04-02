@@ -12,8 +12,12 @@ mongo = PyMongo(app)
 def create_user():
     # Receiving data
     rut = request.json['rut']
+    if not rut:
+        return {'message': 'Proporcione un rut'}
 
-    if rut not in mongo.db.users['rut']:
+    # Revisa si existe el rut en la base de datos
+    exist_rut = mongo.db.users.find_one({'rut': rut})
+    if not exist_rut:
         id = mongo.db.users.insert_one(
             {'rut': rut}
         )
@@ -22,8 +26,9 @@ def create_user():
             'rut': rut
         }
         return response
+        
     else:
-        return {'message': 'Faltan parametros'}
+        return {'message': 'El rut ya existe'}
     
 
 if __name__ == "__main__":
