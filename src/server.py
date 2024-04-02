@@ -1,6 +1,5 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
-from rut_chile import rut_chile
 FLASK_PORT = 8081
 MONGO_URL = "mongodb://localhost:27017/pythonmongodb"
 
@@ -12,8 +11,8 @@ mongo = PyMongo(app)
 def create_user():
     # Receiving data
     rut = request.json['rut']
-    if not rut or not rut_chile.is_valid_rut(rut):
-        return {'message': 'Proporcione un rut valido'}
+    if not rut:
+        return {'message': 'Proporcione un rut'}
 
     # Revisa si existe el rut en la base de datos
     exist_rut = mongo.db.users.find_one({'rut': rut}) 
