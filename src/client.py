@@ -29,11 +29,10 @@ def validar_rut(rut: str):
     except:
         return False
     
-
 def main():
-    rut = "21.512.921-7"
-    print(validar_rut(rut))
-    print(rut_chile.format_capitalized_rut_with_dots(rut))
+    rut = "22969404"
+    rut = rut + rut_chile.get_verification_digit(rut)
+
     
     if validar_rut(rut):
         response = create_user(rut)
