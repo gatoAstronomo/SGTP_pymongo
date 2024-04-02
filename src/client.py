@@ -1,7 +1,7 @@
 from requests import get, post, put, delete
 
 SERVER_IP = "44.197.32.169"
-SERVER_IP = "localhost"
+# SERVER_IP = "localhost"
 SERVER_PORT = 8081
 URL = f'http://{SERVER_IP}:{SERVER_PORT}'
 
