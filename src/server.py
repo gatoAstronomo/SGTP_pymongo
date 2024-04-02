@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
-from rut-chile import validar
+from rut_chile import validar
 FLASK_PORT = 8081
 MONGO_URL = "mongodb://localhost:27017/pythonmongodb"
 
