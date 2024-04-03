@@ -7,6 +7,10 @@ app = Flask(__name__)
 app.config["MONGO_URI"] = MONGO_URL
 mongo = PyMongo(app)
 
+@app.route("/users", methods=["GET"])
+def show_user():
+    return {'message': 'Mensaje de prueba, hola'}
+
 @app.route("/users", methods=["POST"])
 def create_user():
     # Receiving data
