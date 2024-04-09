@@ -6,9 +6,22 @@ SERVER_IP = "44.197.32.169"
 SERVER_PORT = 8081
 URL = f'http://{SERVER_IP}:{SERVER_PORT}'
 
-def create_user(rut: str):
-    data = {'rut': rut}    
-    return post(f'{URL}/users', json=data)
+def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
+    task = {
+        "nombre": nombre,
+        "descripcion": descripcion,
+        "hecha": "false"
+    }
+    data = {
+        "rut": rut,
+        "task": task
+    }
+    
+    return post(f'{URL}/tasks', json=data)
+
+
+
+
 
 def extraer_numeros(cadena):
     numeros_str = ""
@@ -33,9 +46,8 @@ def main():
     rut = "22969404"
     rut = rut + rut_chile.get_verification_digit(rut)
 
-    
     if validar_rut(rut):
-        response = create_user(rut)
+        response = insert_task(rut, "Hoy dia", "Lavar la ropa", "no")
         print(response.json())
     else:
         print("Ingrese un rut valido")
