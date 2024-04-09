@@ -18,10 +18,8 @@ def get_tasks():
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}}
             ])
-        list_tasks = []
-        for tarea in tasks:
-            list_tasks.append(tarea)
-        return list_tasks, 200
+        lista_tareas = [tarea for tarea in tasks]
+        return lista_tareas, 200
 
     else:
         return {'message': 'rut no encontrado'}, 404
