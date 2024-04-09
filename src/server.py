@@ -76,9 +76,9 @@ def delete_task():
     
     if existen:
         mongo.db.tasks.update_one(
-        {"rut": rut},
-        {"$pull": {"tareas": {"nombre": nombre}}}
-        )
+            {"rut": rut},
+            {"$pull": {"tasks": {"nombre": nombre}}}
+            )
         return {'message': 'tarea eliminada exitosamente'}, 200
     else:
         return {'message': 'el rut o tarea ingresada no existen'}, 404
