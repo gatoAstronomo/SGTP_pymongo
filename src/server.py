@@ -13,11 +13,12 @@ def get_task():
     existe_rut = mongo.db.tasks.find_one({"rut": rut})
 
     if existe_rut:
-        tareas = mongo.db.aggregate(
+        tasks = mongo.db.aggregate(
             {"$match": {"rut": rut}},
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}})
-        return tareas()
+        return tasks()
+
     else:
         return {'message': 'Proporcione un rut'}, 400
 
@@ -72,7 +73,7 @@ def delete_task():
     # Recibe la información
     rut = request.json['rut']
     nombre = request.json['nombre']
-    existen = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
+    existe = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
     
     if existen:
         mongo.db.tasks.update_one(

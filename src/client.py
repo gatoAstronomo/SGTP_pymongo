@@ -10,6 +10,7 @@ def get_tasks(rut: str):
     data = {'rut': rut}
     response = get(f'{URL}/tasks', json=data)
     status = response.status_code
+
     if status == 200:
         return response.json()
     elif status == 404:
@@ -51,6 +52,7 @@ def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, ne
     }
     response = put(f'{URL}/tasks', json=data)
     status = response.status_code
+
     if status == 200:
         print("tarea insertada exitosamente")
     elif status == 404:
@@ -65,10 +67,11 @@ def delete_task(rut: str, nombre: str):
     }
     response = delete(f'{URL}/tasks', json=data)
     status = response.status_code
+
     if status == 200:
         print("Tarea eliminada exitosamente")
     elif status == 404:
-        print("El rut o la tarea no existen")
+        print("La tarea no fue encontrada")
     else:
         print("error al eliminar la tarea")
 
@@ -76,6 +79,7 @@ def existe_rut(rut: str):
     data = {'rut': rut}
     response = get(f'{URL}/ruts', json=data)
     status = response.status_code
+
     if status == 200:
         return True
     elif status == 400:
@@ -107,9 +111,10 @@ def pedir_opción():
     
 def main():
     rut = "21345404k"
+    
 
     if validar_rut(rut):
-        delete_task(rut,"Ir al veterinario x 4")
+        get_tasks(rut)
     else:
         print("Ingrese un rut valido")
     
