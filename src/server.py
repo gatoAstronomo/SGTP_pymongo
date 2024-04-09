@@ -13,7 +13,7 @@ def get_task():
     existe_rut = mongo.db.tasks.find_one({"rut": rut})
 
     if existe_rut:
-        tasks = mongo.db.aggregate([
+        tasks = mongo.db.tasks.aggregate([
             {"$match": {"rut": rut}},
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}}
