@@ -8,7 +8,7 @@ app.config["MONGO_URI"] = MONGO_URL
 mongo = PyMongo(app)
 
 @app.route(f'/tasks', methods=["GET"])
-def get_task():
+def get_tasks():
     rut = request.json['rut']
     existe_rut = mongo.db.tasks.find_one({"rut": rut})
 
@@ -18,7 +18,7 @@ def get_task():
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}}
             ])
-        return tasks(), 200
+        return jsonify(tasks), 200
 
     else:
         return {'message': 'rut no encontrado'}, 404
