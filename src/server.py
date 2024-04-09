@@ -44,17 +44,15 @@ def update_task():
     # Recibe la información
     rut = request.json['rut']
     nombre = request.json['nombre']
-    new_nombre = request.json['new_nombre']
-    new_descripcion = request.json['new_descripcion']
-    new_hecha = request.json['new_hecha']
+    new_task = request.json['new_task']
 
     existen = mongo.db.find_one({"rut": rut, "tasks.nombre": nombre})
     if existen:
         mongo.db.update_one(
             {"rut": rut, "tasks.nombre": nombre},  
-            {"$set": {"tasks.$.nombre": new_nombre, 
-                      "tasks.$.descripcion": new_descripcion,
-                      "tasks.$.hecha": new_hecha}
+            {"$set": {"tasks.$.nombre": new_task['new_nombre'], 
+                      "tasks.$.descripcion": new_task['new_descripcion'],
+                      "tasks.$.hecha": new_task['new_hecha']}
                       })
         return {'message': 'tarea actualizada exitosamente'}
     else:
