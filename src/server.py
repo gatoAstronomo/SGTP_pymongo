@@ -25,8 +25,6 @@ def get_tasks():
     else:
         return {'message': 'rut no encontrado'}, 404
 
-
-    
 @app.route("/tasks", methods=["POST"])
 def insert_task():
     # Receiving data
@@ -87,16 +85,6 @@ def delete_task():
     else:
         return {'message': 'el rut o tarea ingresada no existen'}, 404
     
-@app.route("/ruts", methods=["GET"])
-def existe_rut():
-    rut = request.json['rut']
-    exist_rut = mongo.db.tasks.find_one({'rut': rut}) 
-    if exist_rut:
-        return {'message': 'el rut existe en la db'}, 200
-    else:
-        return {'message': 'el rut no fue encontrado'}, 400
-        
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=FLASK_PORT, host="0.0.0.0")  

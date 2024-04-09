@@ -75,18 +75,6 @@ def delete_task(rut: str, nombre: str):
     else:
         print("error al eliminar la tarea")
 
-def existe_rut(rut: str):
-    data = {'rut': rut}
-    response = get(f'{URL}/ruts', json=data)
-    status = response.status_code
-
-    if status == 200:
-        return True
-    elif status == 400:
-        return False
-    else:
-        return False
-
 def validar_rut(rut):
     patron = r'^\d{7,8}[0-9kK]$'
     if re.match(patron, rut):
@@ -105,20 +93,96 @@ def pedir_rut():
 def pedir_opción():
     while True:
         try:
-            return int(input("Ingrese una opcion"))
+            return int(input("Ingrese una opcion: "))
         except:
             print("Ingrese una opcion valida")
-    
-def main():
-    rut = "21345404k"
+
+def pedir_hecha():
+    print("La tarea esta completada?")
+    print("1) Si")
+    print("2) No")
+    while True:    
+        opcion = pedir_opción()
+        if opcion == 1:
+            return "si"
+        elif opcion == 2:
+            return "no"
+        else:
+            print("opción incorrecta")
     
 
-    if validar_rut(rut):
-        for x in range(7):
-            delete_task(rut,"Tarea1")
-    else:
-        print("Ingrese un rut valido")
+def print_task(task: dict):
+    print("Nombre: " + task['nombre'] )
+    print("Descripción: " + task['descripcion'] )
+    print("hecha: " + task['hecha'] )
+
+def print_list_tasks(lista_tasks: list):
+    for task in lista_tasks:
+        print_task(task)
     
+def limpiar_consola():
+    print("\033[H\033[J")
+
+def bienvenida():
+    print("¡Bienvenido al Sistema de Gestion de Tareas Personales!")
+    print("")
+
+def print_menu():
+    print("Sub menú:")
+    print("1) Crear tarea")
+    print("2) Listar tareas")
+    print("3) Actualizar una tarea")
+    print("4) Eliminar una tarea")
+    print("5) Cambiar de rut")
+    print("6) Salir")
+
+def menu():
+    bienvenida()
+    rut = pedir_rut()
+
+    while True:
+        print_menu()
+        opcion = input("Ingrese el número de la opción deseada: ")
+
+        if opcion == '1':
+            # Crear tarea
+            limpiar_consola()
+            nombre = input("Ingrese el nombre de la tarea: ")
+            descripcion = input("Ingrese una descripción: ")
+            hecha = "no"
+            insert_task(rut, nombre, descripcion, hecha)
+        elif opcion == '2':
+            # Listar tareas
+            limpiar_consola()
+            tasks = get_tasks(rut)
+            print_list_tasks(tasks)
+            
+        elif opcion == '3':
+            # Actualizar una tarea
+            limpiar_consola()
+            nombre = input("Ingrese nombre de la tarea a modificar: ")
+            new_nombre = input("Ingrese el nuevo nombre: ")
+            new_descripcion = input("Ingrese la nueva descripción: ")
+            new_hecha = pedir_hecha()
+            update_task(nombre, new_nombre, new_descripcion, new_hecha)
+        elif opcion == '4':
+            # Lógica para eliminar una tarea
+            limpiar_consola()
+            nombre = input("Ingrese nombre de la tarea a ELIMINAR: ")
+            delete_task(rut, nombre)
+        elif opcion == '5':
+            # Lógica para cambiar de rut
+            limpiar_consola()
+            rut = pedir_rut()
+            print("Rut cambiado exitosamente")
+        elif opcion == '6':
+            print("cerrando el programa......")
+            break
+        else:
+            print("Opción no válida. Por favor, ingrese un número del 1 al 6.")
+
+def main():
+    menu()
 
 if __name__ == "__main__":
     main()
