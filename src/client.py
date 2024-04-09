@@ -63,7 +63,14 @@ def delete_task(rut: str, nombre: str):
         "rut": rut,
         "nombre": nombre, 
     }
-    return delete(f'{URL}/tasks', json=data)
+    response = delete(f'{URL}/tasks', json=data)
+    status = response.status_code
+    if status == 200:
+        print("Tarea eliminada exitosamente")
+    elif status == 404:
+        print("El rut o la tarea no existen")
+    else:
+        print("error al eliminar la tarea")
 
 def existe_rut(rut: str):
     data = {'rut': rut}
