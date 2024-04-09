@@ -47,7 +47,7 @@ def main():
     rut = rut + rut_chile.get_verification_digit(rut)
 
     if validar_rut(rut):
-        response = insert_task(rut, "Lavar ropa", "llevar a lavar la polera blanca", "no")
+        response = insert_task(rut, "Ir al veterinario", "llevar a toby a su chequeo mensual", "no")
         print(response.json())
     else:
         print("Ingrese un rut valido")

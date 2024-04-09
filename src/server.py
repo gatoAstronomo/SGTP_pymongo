@@ -24,9 +24,9 @@ def insert_task():
 
     # Si existe el rut en la db actualizamos las tareas de ese rut
     exist_rut = mongo.db.tasks.find_one({'rut': rut}) 
-    if not exist_rut:
-        mongo.db.tasks.update_one(
-            {"rut": "123456789"},
+    if exist_rut:
+        id = mongo.db.tasks.update_one(
+            {"rut": rut},
             {"$push": {"tasks": task}}
             )
         return {'message': 'rut creado y tarea insertada exitosamente'}
