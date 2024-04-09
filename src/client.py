@@ -10,7 +10,7 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     task = {
         "nombre": nombre,
         "descripcion": descripcion,
-        "hecha": "false"
+        "hecha": hecha
     }
     data = {
         "rut": rut,
@@ -47,7 +47,7 @@ def main():
     rut = rut + rut_chile.get_verification_digit(rut)
 
     if validar_rut(rut):
-        response = insert_task(rut, "Hoy dia", "Lavar la ropa", "no")
+        response = insert_task(rut, "Lavar ropa", "llevar a lavar la polera blanca", "no")
         print(response.json())
     else:
         print("Ingrese un rut valido")

@@ -12,34 +12,32 @@ def get_task():
     rut = request.json['rut']
     if not rut:
         return {'message': 'Proporcione un rut'}
+
     
 @app.route("/tasks", methods=["POST"])
 def insert_task():
     # Receiving data
     rut = request.json['rut']
-    task = request.json['task']
-
+    task = request.json['tasks']
     if not rut:
         return {'message': 'Proporcione un rut'}
 
-    # Revisa si existe el rut en la base de datos
+    # Si existe el rut en la db actualizamos las tareas de ese rut
     exist_rut = mongo.db.tasks.find_one({'rut': rut}) 
     if not exist_rut:
-        id = mongo.db.tasks.insert_one(
-            {
-                'rut': rut,
-                'task': task
-                }
-        )
-        response = {
-            'id': str(id.inserted_id),
-            'rut': rut,
-            'task': task
-        }
-        return response
+        mongo.db.tasks.update_one(
+            {"rut": "123456789"},
+            {"$push": {"tasks": task}}
+            )
+        return {'message': 'rut creado y tarea insertada exitosamente'}
 
+    # Sino existe lo creamos
     else:
-        return {'message': 'El rut ya existe'}
+        mongo.db.tasks.insert_one({
+            'rut': rut,
+            'tasks': [task]
+        })
+        return {'message': 'tarea insertada exitosamente'}
     
 
 if __name__ == "__main__":
