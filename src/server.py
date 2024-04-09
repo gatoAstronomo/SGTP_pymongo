@@ -15,8 +15,8 @@ def get_tasks():
     if existe_rut:
         tasks = mongo.db.tasks.aggregate([
             {"$match": {"rut": rut}},
-            {"$unwind": "$tareas"},
-            {"$replaceRoot": {"newRoot": "$tareas"}}
+            {"$unwind": "$tasks"},
+            {"$replaceRoot": {"newRoot": "$tasks"}}
             ])
         lista_tareas = [tarea for tarea in tasks]
         print(lista_tareas)
