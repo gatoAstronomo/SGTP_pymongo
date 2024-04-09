@@ -1,10 +1,22 @@
 from requests import get, post, put, delete
-from rut_chile import rut_chile
+import re
 
 SERVER_IP = "44.197.32.169"
 # SERVER_IP = "localhost"
 SERVER_PORT = 8081
 URL = f'http://{SERVER_IP}:{SERVER_PORT}'
+
+def get_tasks(rut: str):
+    data = {'rut': rut}
+    response = get(f'{URL}/tasks', json=data)
+    status = response.status_code
+    if status == 200:
+        return response.json()
+    elif status == 404:
+        print("rut no encontrado")
+    else:
+        print("error al descargar sus tareas")
+
 
 def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     task = {
@@ -16,8 +28,14 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
         "rut": rut,
         "task": task
     }
-    
-    return post(f'{URL}/tasks', json=data)
+    response = post(f'{URL}/tasks', json=data)
+    status = response.status_code
+    if status == 200:
+        print("tarea insertada exitosamente")
+    elif status == 400:
+        print("no fue posible ingresar la tarea")
+    else:
+        print("no fue posible ingresar la tarea")
 
 def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
     new_task = {
@@ -30,36 +48,60 @@ def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, ne
         "nombre": nombre, 
         "new_task": new_task
     }
-    
-    return put(f'{URL}/tasks', json=data)
+    response = put(f'{URL}/tasks', json=data)
+    status = response.status_code
+    if status == 200:
+        print("tarea insertada exitosamente")
+    elif status == 404:
+        print("tarea no encontrada")
+    else:
+        print("error al ingresar la tarea")
 
+def delete_task(rut: str, nombre: str):
+    data = {
+        "rut": rut,
+        "nombre": nombre, 
+    }
+    return delete(f'{URL}/tasks', json=data)
 
-
-def extraer_numeros(cadena):
-    numeros_str = ""
-    for caracter in cadena:
-        if '0' <= caracter <= '9':  # Verifica si el carácter es un dígito numérico
-            numeros_str += caracter
-    return numeros_str
-
-def validar_rut(rut: str):
-    rut = extraer_numeros(rut)
-    
-    # Longitud correcta
-    if len(rut) != 9:
+def existe_rut(rut: str):
+    data = {'rut': rut}
+    response = get(f'{URL}/ruts', json=data)
+    status = response.status_code
+    if status == 200:
+        return True
+    elif status == 400:
         return False
-    
-    try:
-        return rut_chile.is_valid_rut(rut)
-    except:
+    else:
         return False
+
+def validar_rut(rut):
+    patron = r'^\d{6,7}[0-9kK]$'
+    if re.match(patron, rut):
+        return True
+    else:
+        return False
+
+def pedir_rut():
+    while True:
+        rut = input("Ingrese su rut")
+        if validar_rut(rut):
+            return rut
+        else:
+            print("Ingrese un rut valido")
+
+def pedir_opción():
+    while True:
+        try:
+            return int(input("Ingrese una opcion"))
+        except:
+            print("Ingrese una opcion valida")
     
 def main():
-    rut = "21345404"
-    rut = rut + rut_chile.get_verification_digit(rut)
+    rut = "21345404k"
 
     if validar_rut(rut):
-        response = update_task(rut, "Ir al veterinario", "Ir al veterinario x 4", "llevar a toby a su chequeo aasdffmensual", "si")
+        response = insert_task(rut, "Ir al veterinario", "Ir al veterinario x 4", "llevar a toby a su chequeo aasdffmensual", "si")
         print(response.json())
     else:
         print("Ingrese un rut valido")
