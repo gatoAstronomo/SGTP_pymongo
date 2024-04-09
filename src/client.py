@@ -21,9 +21,9 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
 
 def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
     new_task = {
-        "nombre": new_nombre,
-        "descripcion": new_descripcion,
-        "hecha": new_hecha
+        "new_nombre": new_nombre,
+        "new_descripcion": new_descripcion,
+        "new_hecha": new_hecha
     }
     data = {
         "rut": rut,
