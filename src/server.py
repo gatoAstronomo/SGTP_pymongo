@@ -20,7 +20,7 @@ def get_task():
         return tasks(), 200
 
     else:
-        return {'message': 'Proporcione un rut'}, 400
+        return {'message': 'Proporcione un rut'}, 404
 
 
     
