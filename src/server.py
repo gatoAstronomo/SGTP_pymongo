@@ -76,7 +76,7 @@ def delete_task():
     # Recibe la información
     rut = request.json['rut']
     nombre = request.json['nombre']
-    existe = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
+    existen = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
     
     if existen:
         mongo.db.tasks.update_one(

@@ -114,8 +114,8 @@ def main():
     
 
     if validar_rut(rut):
-        tareas = get_tasks(rut)
-        print(tareas)
+        for x in range(7):
+            delete_task(rut,"Tarea1")
     else:
         print("Ingrese un rut valido")
     
