@@ -46,9 +46,9 @@ def update_task():
     nombre = request.json['nombre']
     new_task = request.json['new_task']
 
-    existen = mongo.db.find_one({"rut": rut, "tasks.nombre": nombre})
+    existen = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
     if existen:
-        mongo.db.update_one(
+        mongo.db.tasks.update_one(
             {"rut": rut, "tasks.nombre": nombre},  
             {"$set": {"tasks.$.nombre": new_task['new_nombre'], 
                       "tasks.$.descripcion": new_task['new_descripcion'],
