@@ -59,7 +59,7 @@ def main():
     rut = rut + rut_chile.get_verification_digit(rut)
 
     if validar_rut(rut):
-        response = insert_task(rut, "Ir al veterinario", "llevar a toby a su chequeo mensual", "no")
+        response = update_task(rut, "Ir al veterinario", "Ir al veterinario x 4", "llevar a toby a su chequeo aasdffmensual", "si")
         print(response.json())
     else:
         print("Ingrese un rut valido")
