@@ -13,14 +13,15 @@ def get_task():
     existe_rut = mongo.db.tasks.find_one({"rut": rut})
 
     if existe_rut:
-        tasks = mongo.db.aggregate(
+        tasks = mongo.db.aggregate([
             {"$match": {"rut": rut}},
             {"$unwind": "$tareas"},
-            {"$replaceRoot": {"newRoot": "$tareas"}})
+            {"$replaceRoot": {"newRoot": "$tareas"}}
+            ])
         return tasks(), 200
 
     else:
-        return {'message': 'Proporcione un rut'}, 404
+        return {'message': 'rut no encontrado'}, 404
 
 
     

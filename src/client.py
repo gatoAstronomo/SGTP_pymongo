@@ -114,7 +114,9 @@ def main():
     
 
     if validar_rut(rut):
-        get_tasks(rut)
+        insert_task(rut,"Tarea1","d1","no")
+        tareas = get_tasks(rut)
+        print(tareas)
     else:
         print("Ingrese un rut valido")
     
