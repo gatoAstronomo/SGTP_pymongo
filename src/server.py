@@ -18,7 +18,10 @@ def get_tasks():
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}}
             ])
-        return jsonify(tasks), 200
+        list_tasks = []
+        for tarea in tasks:
+            list_tasks.append(tarea)
+        return list_tasks, 200
 
     else:
         return {'message': 'rut no encontrado'}, 404
