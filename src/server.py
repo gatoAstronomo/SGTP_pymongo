@@ -29,7 +29,7 @@ def insert_task():
             {"rut": rut},
             {"$push": {"tasks": task}}
             )
-        return {'message': 'rut creado y tarea insertada exitosamente'}
+        return {'message': 'tarea insertada exitosamente'}
 
     # Sino existe lo creamos
     else:
@@ -37,7 +37,7 @@ def insert_task():
             'rut': rut,
             'tasks': [task]
         })
-        return {'message': 'tarea insertada exitosamente'}
+        return {'message': 'rut creado y tarea insertada exitosamente'}
     
 
 if __name__ == "__main__":
