@@ -14,9 +14,10 @@ def get_tasks(rut: str):
     if status == 200:
         return response.json()
     elif status == 404:
-        print("rut no encontrado")
+        return []
     else:
         print("error al descargar sus tareas")
+        return []
 
 
 def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
@@ -84,8 +85,9 @@ def validar_rut(rut):
 
 def pedir_rut():
     while True:
-        rut = input("Ingrese su rut")
+        rut = input("Ingrese su rut: ")
         if validar_rut(rut):
+            print("El rut ha sido ingresado exitosamente")
             return rut
         else:
             print("Ingrese un rut valido")
@@ -117,6 +119,8 @@ def print_task(task: dict):
     print("hecha: " + task['hecha'] )
 
 def print_list_tasks(lista_tasks: list):
+    if task.len == 0:
+        print("No tiene ninguna tarea")
     for task in lista_tasks:
         print_task(task)
     
@@ -128,7 +132,6 @@ def bienvenida():
     print("")
 
 def print_menu():
-    print("Sub menú:")
     print("1) Crear tarea")
     print("2) Listar tareas")
     print("3) Actualizar una tarea")
@@ -137,6 +140,7 @@ def print_menu():
     print("6) Salir")
 
 def menu():
+    limpiar_consola()
     bienvenida()
     rut = pedir_rut()
 
@@ -165,19 +169,23 @@ def menu():
             new_descripcion = input("Ingrese la nueva descripción: ")
             new_hecha = pedir_hecha()
             update_task(nombre, new_nombre, new_descripcion, new_hecha)
+
         elif opcion == '4':
             # Lógica para eliminar una tarea
             limpiar_consola()
             nombre = input("Ingrese nombre de la tarea a ELIMINAR: ")
             delete_task(rut, nombre)
+
         elif opcion == '5':
             # Lógica para cambiar de rut
             limpiar_consola()
             rut = pedir_rut()
             print("Rut cambiado exitosamente")
+
         elif opcion == '6':
             print("cerrando el programa......")
             break
+
         else:
             print("Opción no válida. Por favor, ingrese un número del 1 al 6.")
 
@@ -186,3 +194,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # ruts: 218474383
