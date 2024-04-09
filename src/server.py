@@ -79,9 +79,9 @@ def delete_task():
         {"rut": rut},
         {"$pull": {"tareas": {"nombre": nombre}}}
         )
-        return {'message': 'tarea eliminada exitosamente'}
+        return {'message': 'tarea eliminada exitosamente'}, 200
     else:
-        return {'message': 'el rut o tarea ingresada no existen'}
+        return {'message': 'el rut o tarea ingresada no existen'}, 404
     
 @app.route("/ruts", methods=["GET"])
 def existe_rut():

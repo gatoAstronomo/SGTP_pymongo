@@ -36,6 +36,7 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
         print("no fue posible ingresar la tarea")
     else:
         print("no fue posible ingresar la tarea")
+    return response
 
 def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
     new_task = {
@@ -76,7 +77,7 @@ def existe_rut(rut: str):
         return False
 
 def validar_rut(rut):
-    patron = r'^\d{6,7}[0-9kK]$'
+    patron = r'^\d{7,8}[0-9kK]$'
     if re.match(patron, rut):
         return True
     else:
@@ -101,8 +102,7 @@ def main():
     rut = "21345404k"
 
     if validar_rut(rut):
-        response = insert_task(rut, "Ir al veterinario", "Ir al veterinario x 4", "llevar a toby a su chequeo aasdffmensual", "si")
-        print(response.json())
+        delete_task(rut,"Ir al veterinario x 4")
     else:
         print("Ingrese un rut valido")
     
