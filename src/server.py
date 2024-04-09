@@ -17,7 +17,7 @@ def get_task():
             {"$match": {"rut": rut}},
             {"$unwind": "$tareas"},
             {"$replaceRoot": {"newRoot": "$tareas"}})
-        return tasks()
+        return tasks(), 200
 
     else:
         return {'message': 'Proporcione un rut'}, 400
