@@ -38,6 +38,27 @@ def insert_task():
             'tasks': [task]
         })
         return {'message': 'rut creado y tarea insertada exitosamente'}
+
+@app.route("/tasks", methods=["PUT"])
+def update_task():
+    # Recibe la información
+    rut = request.json['rut']
+    nombre = request.json['nombre']
+    new_nombre = request.json['new_nombre']
+    new_descripcion = request.json['new_descripcion']
+    new_hecha = request.json['new_hecha']
+
+    existen = mongo.db.find_one({"rut": rut, "tasks.nombre": nombre})
+    if existen:
+        mongo.db.update_one(
+            {"rut": rut, "tasks.nombre": nombre},  
+            {"$set": {"tasks.$.nombre": new_nombre, 
+                      "tasks.$.descripcion": new_descripcion,
+                      "tasks.$.hecha": new_hecha}
+                      })
+        return {'message': 'tarea actualizada exitosamente'}
+    else:
+        return {'message': 'el rut o tarea ingresada no existen'}
     
 
 if __name__ == "__main__":

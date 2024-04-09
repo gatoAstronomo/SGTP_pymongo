@@ -19,7 +19,19 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     
     return post(f'{URL}/tasks', json=data)
 
-
+def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
+    new_task = {
+        "nombre": new_nombre,
+        "descripcion": new_descripcion,
+        "hecha": new_hecha
+    }
+    data = {
+        "rut": rut,
+        "nombre": nombre, 
+        "new_task": new_task
+    }
+    
+    return put(f'{URL}/tasks', json=data)
 
 
 
@@ -43,7 +55,7 @@ def validar_rut(rut: str):
         return False
     
 def main():
-    rut = "22969404"
+    rut = "21345404"
     rut = rut + rut_chile.get_verification_digit(rut)
 
     if validar_rut(rut):
