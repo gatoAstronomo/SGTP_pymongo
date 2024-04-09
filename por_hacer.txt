@@ -19,7 +19,7 @@ Sub menu
 5) cambiar de rut
 6) salir
 
-
+Estructura base de datos, pythonmongodb
 {
     "_id": ObjectId("6070eac1f20e4a31a43dcb2d"),
     "rut": "12345678-9",
@@ -41,3 +41,5 @@ Sub menu
         }
     ]
 }
+
+hacer el informe de como funciona la api

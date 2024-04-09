@@ -16,7 +16,7 @@ def get_tasks(rut: str):
     elif status == 404:
         return []
     else:
-        print("error al descargar sus tareas")
+        print("Error al descargar sus tareas")
         return []
 
 
@@ -33,11 +33,11 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     response = post(f'{URL}/tasks', json=data)
     status = response.status_code
     if status == 200:
-        print("tarea insertada exitosamente")
+        print("Tarea insertada exitosamente")
     elif status == 400:
-        print("no fue posible ingresar la tarea")
+        print("No fue posible ingresar la tarea")
     else:
-        print("no fue posible ingresar la tarea")
+        print("No fue posible ingresar la tarea")
     return response
 
 def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
@@ -55,11 +55,11 @@ def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, ne
     status = response.status_code
 
     if status == 200:
-        print("tarea insertada exitosamente")
+        print("Tarea actualizada exitosamente")
     elif status == 404:
-        print("tarea no encontrada")
+        print("No fue posible actualizar la tarea")
     else:
-        print("error al ingresar la tarea")
+        print("Error al ingresar la tarea")
 
 def delete_task(rut: str, nombre: str):
     data = {
@@ -74,7 +74,7 @@ def delete_task(rut: str, nombre: str):
     elif status == 404:
         print("La tarea no fue encontrada")
     else:
-        print("error al eliminar la tarea")
+        print("Error al eliminar la tarea")
 
 def validar_rut(rut):
     patron = r'^\d{7,8}[0-9kK]$'
@@ -87,7 +87,6 @@ def pedir_rut():
     while True:
         rut = input("Ingrese su rut: ")
         if validar_rut(rut):
-            print("El rut ha sido ingresado exitosamente")
             return rut
         else:
             print("Ingrese un rut valido")
@@ -97,7 +96,7 @@ def pedir_opción():
         try:
             return int(input("Ingrese una opcion: "))
         except:
-            print("Ingrese una opcion valida")
+            print("opción invalida")
 
 def pedir_hecha():
     print("La tarea esta completada?")
@@ -119,10 +118,11 @@ def print_task(task: dict):
     print("hecha: " + task['hecha'] )
 
 def print_list_tasks(lista_tasks: list):
-    if task.len == 0:
-        print("No tiene ninguna tarea")
+    if len(lista_tasks) == 0:
+        print("No tiene ninguna tarea\n")
     for task in lista_tasks:
         print_task(task)
+        print("")
     
 def limpiar_consola():
     print("\033[H\033[J")
@@ -132,6 +132,7 @@ def bienvenida():
     print("")
 
 def print_menu():
+    print()
     print("1) Crear tarea")
     print("2) Listar tareas")
     print("3) Actualizar una tarea")
@@ -143,47 +144,48 @@ def menu():
     limpiar_consola()
     bienvenida()
     rut = pedir_rut()
+    print("El rut ha sido ingresado exitosamente")
 
     while True:
         print_menu()
-        opcion = input("Ingrese el número de la opción deseada: ")
+        opcion = pedir_opción()
 
-        if opcion == '1':
+        if opcion == 1:
             # Crear tarea
             limpiar_consola()
             nombre = input("Ingrese el nombre de la tarea: ")
             descripcion = input("Ingrese una descripción: ")
             hecha = "no"
             insert_task(rut, nombre, descripcion, hecha)
-        elif opcion == '2':
+        elif opcion == 2:
             # Listar tareas
             limpiar_consola()
             tasks = get_tasks(rut)
             print_list_tasks(tasks)
             
-        elif opcion == '3':
+        elif opcion == 3:
             # Actualizar una tarea
             limpiar_consola()
             nombre = input("Ingrese nombre de la tarea a modificar: ")
             new_nombre = input("Ingrese el nuevo nombre: ")
             new_descripcion = input("Ingrese la nueva descripción: ")
             new_hecha = pedir_hecha()
-            update_task(nombre, new_nombre, new_descripcion, new_hecha)
+            update_task(rut, nombre, new_nombre, new_descripcion, new_hecha)
 
-        elif opcion == '4':
+        elif opcion == 4:
             # Lógica para eliminar una tarea
             limpiar_consola()
             nombre = input("Ingrese nombre de la tarea a ELIMINAR: ")
             delete_task(rut, nombre)
 
-        elif opcion == '5':
+        elif opcion == 5:
             # Lógica para cambiar de rut
             limpiar_consola()
             rut = pedir_rut()
             print("Rut cambiado exitosamente")
 
-        elif opcion == '6':
-            print("cerrando el programa......")
+        elif opcion == 6:
+            print("Saliendo del programa......")
             break
 
         else:
