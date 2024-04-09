@@ -18,7 +18,7 @@ def get_task():
 def insert_task():
     # Receiving data
     rut = request.json['rut']
-    task = request.json['tasks']
+    task = request.json['task']
     if not rut:
         return {'message': 'Proporcione un rut'}
 
