@@ -2,94 +2,94 @@ from requests import get, post, put, delete
 import re
 import tkinter as tk
 
-SERVER_IP = "44.197.32.169"
+ARSERVER_IP = "44.197.32.169"
 # SERVER_IP = "localhost"
-SERVER_PORT = 8081
-URL = f'http://{SERVER_IP}:{SERVER_PORT}'
+ARSERVER_PORT = 8081
+ARURL = f'http://{ARSERVER_IP}:{ARSERVER_PORT}'
 
-def get_tasks(rut: str):
-    data = {'rut': rut}
-    response = get(f'{URL}/tasks', json=data)
-    status = response.status_code
+def get_tasks(ARrut: str):
+    ARdata = {'rut': ARrut}
+    ARresponse = get(f'{ARURL}/tasks', json=ARdata)
+    ARstatus = ARresponse.status_code
 
-    if status == 200:
-        return response.json()
-    elif status == 404:
+    if ARstatus == 200:
+        return ARresponse.json()
+    elif ARstatus == 404:
         return []
     else:
         print("Error al descargar sus tareas")
         return []
 
-def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
-    task = {
-        "nombre": nombre,
-        "descripcion": descripcion,
-        "hecha": hecha
+def insert_task(ARrut: str, ARnombre: str, ARdescripcion: str, ARhecha: str):
+    ARtask = {
+        "nombre": ARnombre,
+        "descripcion": ARdescripcion,
+        "hecha": ARhecha
     }
-    data = {
-        "rut": rut,
-        "task": task
+    ARdata = {
+        "rut": ARrut,
+        "task": ARtask
     }
-    response = post(f'{URL}/tasks', json=data)
-    status = response.status_code
+    ARresponse = post(f'{ARURL}/tasks', json=ARdata)
+    ARstatus = ARresponse.status_code
     
-    if status == 200:
+    if ARstatus == 200:
         print("Tarea insertada exitosamente")
-    elif status == 400:
+    elif ARstatus == 400:
         print("No fue posible ingresar la tarea")
         print("Ya existe una tarea con ese nombre")
     else:
         print("No fue posible ingresar la tarea")
-    return response
+    return ARresponse
 
-def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, new_hecha: str):
-    new_task = {
-        "new_nombre": new_nombre,
-        "new_descripcion": new_descripcion,
-        "new_hecha": new_hecha
+def update_task(ARrut: str, ARnombre: str, ARnew_nombre: str, ARnew_descripcion: str, ARnew_hecha: str):
+    ARnew_task = {
+        "new_nombre": ARnew_nombre,
+        "new_descripcion": ARnew_descripcion,
+        "new_hecha": ARnew_hecha
     }
-    data = {
-        "rut": rut,
-        "nombre": nombre, 
-        "new_task": new_task
+    ARdata = {
+        "rut": ARrut,
+        "nombre": ARnombre, 
+        "new_task": ARnew_task
     }
-    response = put(f'{URL}/tasks', json=data)
-    status = response.status_code
+    ARresponse = put(f'{ARURL}/tasks', json=ARdata)
+    ARstatus = ARresponse.status_code
 
-    if status == 200:
+    if ARstatus == 200:
         print("Tarea actualizada exitosamente")
-    elif status == 404:
+    elif ARstatus == 404:
         print("No fue posible encontrar la tarea")
     else:
         print("Error al ingresar la tarea")
 
-def delete_task(rut: str, nombre: str):
-    data = {
-        "rut": rut,
-        "nombre": nombre, 
+def delete_task(ARrut: str, ARnombre: str):
+    ARdata = {
+        "rut": ARrut,
+        "nombre": ARnombre, 
     }
-    response = delete(f'{URL}/tasks', json=data)
-    status = response.status_code
+    ARresponse = delete(f'{ARURL}/tasks', json=ARdata)
+    ARstatus = ARresponse.status_code
 
-    if status == 200:
+    if ARstatus == 200:
         print("Tarea eliminada exitosamente")
-    elif status == 404:
+    elif ARstatus == 404:
         print("No fue posible encontrar la tarea")
     else:
         print("Error al eliminar la tarea")
 
-def validar_rut(rut):
-    patron = r'^\d{7,8}[0-9kK]$'
-    if re.match(patron, rut):
+def validar_rut(ARrut):
+    ARpatron = r'^\d{7,8}[0-9kK]$'
+    if re.match(ARpatron, ARrut):
         return True
     else:
         return False
 
 def pedir_rut():
     while True:
-        rut = input("Ingrese su rut: ")
-        if validar_rut(rut):
-            return rut
+        ARrut = input("Ingrese su rut: ")
+        if validar_rut(ARrut):
+            return ARrut
         else:
             print("Ingrese un rut valido")
 
@@ -105,24 +105,24 @@ def pedir_hecha():
     print("1) Si")
     print("2) No")
     while True:    
-        opcion = pedir_opción()
-        if opcion == 1:
+        ARopcion = pedir_opción()
+        if ARopcion == 1:
             return "si"
-        elif opcion == 2:
+        elif ARopcion == 2:
             return "no"
         else:
             print("opción incorrecta")
     
-def print_task(task: dict):
-    print("Nombre: " + task['nombre'] )
-    print("Descripción: " + task['descripcion'] )
-    print("hecha: " + task['hecha'] )
+def print_task(ARtask: dict):
+    print("Nombre: " + ARtask['nombre'] )
+    print("Descripción: " + ARtask['descripcion'] )
+    print("hecha: " + ARtask['hecha'] )
 
-def print_list_tasks(lista_tasks: list):
-    if len(lista_tasks) == 0:
+def print_list_tasks(ARlista_tasks: list):
+    if len(ARlista_tasks) == 0:
         print("No tiene ninguna tarea\n")
-    for task in lista_tasks:
-        print_task(task)
+    for ARtask in ARlista_tasks:
+        print_task(ARtask)
         print("")
     
 def limpiar_consola():
@@ -144,48 +144,48 @@ def print_menu():
 def menu():
     limpiar_consola()
     bienvenida()
-    rut = pedir_rut()
+    ARrut = pedir_rut()
     print("El rut ha sido ingresado exitosamente")
 
     while True:
         print_menu()
-        opcion = pedir_opción()
+        ARopcion = pedir_opción()
 
-        if opcion == 1:
+        if ARopcion == 1:
             # Crear tarea
             limpiar_consola()
-            nombre = input("Ingrese el nombre de la tarea: ")
-            descripcion = input("Ingrese una descripción: ")
-            hecha = "no"
-            insert_task(rut, nombre, descripcion, hecha)
-        elif opcion == 2:
+            ARnombre = input("Ingrese el nombre de la tarea: ")
+            ARdescripcion = input("Ingrese una descripción: ")
+            ARhecha = "no"
+            insert_task(ARrut, ARnombre, ARdescripcion, ARhecha)
+        elif ARopcion == 2:
             # Listar tareas
             limpiar_consola()
-            tasks = get_tasks(rut)
-            print_list_tasks(tasks)
+            ARtasks = get_tasks(ARrut)
+            print_list_tasks(ARtasks)
             
-        elif opcion == 3:
+        elif ARopcion == 3:
             # Actualizar una tarea
             limpiar_consola()
-            nombre = input("Ingrese nombre de la tarea a modificar: ")
-            new_nombre = input("Ingrese el nuevo nombre: ")
-            new_descripcion = input("Ingrese la nueva descripción: ")
-            new_hecha = pedir_hecha()
-            update_task(rut, nombre, new_nombre, new_descripcion, new_hecha)
+            ARnombre = input("Ingrese nombre de la tarea a modificar: ")
+            ARnew_nombre = input("Ingrese el nuevo nombre: ")
+            ARnew_descripcion = input("Ingrese la nueva descripción: ")
+            ARnew_hecha = pedir_hecha()
+            update_task(ARrut, ARnombre, ARnew_nombre, ARnew_descripcion, ARnew_hecha)
 
-        elif opcion == 4:
+        elif ARopcion == 4:
             # Lógica para eliminar una tarea
             limpiar_consola()
-            nombre = input("Ingrese nombre de la tarea a ELIMINAR: ")
-            delete_task(rut, nombre)
+            ARnombre = input("Ingrese nombre de la tarea a ELIMINAR: ")
+            delete_task(ARrut, ARnombre)
 
-        elif opcion == 5:
+        elif ARopcion == 5:
             # Lógica para cambiar de rut
             limpiar_consola()
-            rut = pedir_rut()
+            ARrut = pedir_rut()
             print("Rut cambiado exitosamente")
 
-        elif opcion == 6:
+        elif ARopcion == 6:
             print("Saliendo del programa......")
             break
 

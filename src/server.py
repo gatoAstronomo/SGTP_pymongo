@@ -1,88 +1,88 @@
 from flask import Flask, request, jsonify
 from flask_pymongo import PyMongo
-FLASK_PORT = 8081
-MONGO_URL = "mongodb://localhost:27017/pythonmongodb"
+ARFLASK_PORT = 8081
+ARMONGO_URL = "mongodb://localhost:27017/pythonmongodb"
 
-app = Flask(__name__)
-app.config["MONGO_URI"] = MONGO_URL
-mongo = PyMongo(app)
+ARapp = Flask(__name__)
+ARapp.config["MONGO_URI"] = ARMONGO_URL
+ARmongo = PyMongo(ARapp)
 
-@app.route(f'/tasks', methods=["GET"])
+@ARapp.route(f'/tasks', methods=["GET"])
 def get_tasks():
-    rut = request.json['rut']
-    existe_rut = mongo.db.tasks.find_one({"rut": rut})
+    ARrut = request.json['rut']
+    ARexiste_rut = ARmongo.db.tasks.find_one({"rut": ARrut})
 
-    if existe_rut:
-        tasks = mongo.db.tasks.aggregate([
-            {"$match": {"rut": rut}},
+    if ARexiste_rut:
+        ARtasks = ARmongo.db.tasks.aggregate([
+            {"$match": {"rut": ARrut}},
             {"$unwind": "$tasks"},
             {"$replaceRoot": {"newRoot": "$tasks"}}
             ])
-        lista_tareas = [tarea for tarea in tasks]
-        return lista_tareas, 200
+        ARlista_tareas = [ARtarea for ARtarea in ARtasks]
+        return ARlista_tareas, 200
 
     else:
         return {'message': 'rut no encontrado'}, 404
 
-@app.route("/tasks", methods=["POST"])
+@ARapp.route("/tasks", methods=["POST"])
 def insert_task():
     # Receiving data
-    rut = request.json['rut']
-    task = request.json['task']
-    nombre = task['nombre']
+    ARrut = request.json['rut']
+    ARtask = request.json['task']
+    ARnombre = ARtask['nombre']
 
-    exist_rut = mongo.db.tasks.find_one({'rut': rut}) 
-    exist_task = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
+    ARexist_rut = ARmongo.db.tasks.find_one({'rut': ARrut}) 
+    ARexist_task = ARmongo.db.tasks.find_one({"rut": ARrut, "tasks.nombre": ARnombre})
     # Si existe tarea no es posible ingresar
-    if exist_task:
+    if ARexist_task:
         return {'message': 'Ya existe una tarea con ese nombre'},400
 
     # Si existe el rut insertamos la tarea
-    if exist_rut:
-        mongo.db.tasks.update_one(
-            {"rut": rut},
-            {"$push": {"tasks": task}}
+    if ARexist_rut:
+        ARmongo.db.tasks.update_one(
+            {"rut": ARrut},
+            {"$push": {"tasks": ARtask}}
             )
         return {'message': 'tarea insertada exitosamente'}, 200
 
     # Sino existe rut, creamos el rut he insertamos la tarea
     else:
-        mongo.db.tasks.insert_one({
-            'rut': rut,
-            'tasks': [task]
+        ARmongo.db.tasks.insert_one({
+            'rut': ARrut,
+            'tasks': [ARtask]
         })
         return {'message': 'rut creado y tarea insertada exitosamente'}, 200
 
-@app.route("/tasks", methods=["PUT"])
+@ARapp.route("/tasks", methods=["PUT"])
 def update_task():
     # Recibe la información
-    rut = request.json['rut']
-    nombre = request.json['nombre']
-    new_task = request.json['new_task']
+    ARrut = request.json['rut']
+    ARnombre = request.json['nombre']
+    ARnew_task = request.json['new_task']
 
-    existen = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
-    if existen:
-        mongo.db.tasks.update_one(
-            {"rut": rut, "tasks.nombre": nombre},  
-            {"$set": {"tasks.$.nombre": new_task['new_nombre'], 
-                      "tasks.$.descripcion": new_task['new_descripcion'],
-                      "tasks.$.hecha": new_task['new_hecha']}
+    ARexisten = ARmongo.db.tasks.find_one({"rut": ARrut, "tasks.nombre": ARnombre})
+    if ARexisten:
+        ARmongo.db.tasks.update_one(
+            {"rut": ARrut, "tasks.nombre": ARnombre},  
+            {"$set": {"tasks.$.nombre": ARnew_task['new_nombre'], 
+                      "tasks.$.descripcion": ARnew_task['new_descripcion'],
+                      "tasks.$.hecha": ARnew_task['new_hecha']}
                       })
         return {'message': 'tarea actualizada exitosamente'}, 200
     else:
         return {'message': 'el rut o tarea ingresada no existen'}, 404
 
-@app.route("/tasks", methods=["DELETE"])
+@ARapp.route("/tasks", methods=["DELETE"])
 def delete_task():
     # Recibe la información
-    rut = request.json['rut']
-    nombre = request.json['nombre']
-    existen = mongo.db.tasks.find_one({"rut": rut, "tasks.nombre": nombre})
+    ARrut = request.json['rut']
+    ARnombre = request.json['nombre']
+    ARexisten = ARmongo.db.tasks.find_one({"rut": ARrut, "tasks.nombre": ARnombre})
     
-    if existen:
-        mongo.db.tasks.update_one(
-            {"rut": rut},
-            {"$pull": {"tasks": {"nombre": nombre}}}
+    if ARexisten:
+        ARmongo.db.tasks.update_one(
+            {"rut": ARrut},
+            {"$pull": {"tasks": {"nombre": ARnombre}}}
             )
         return {'message': 'tarea eliminada exitosamente'}, 200
     else:
@@ -90,4 +90,4 @@ def delete_task():
     
 
 if __name__ == "__main__":
-    app.run(debug=True, port=FLASK_PORT, host="0.0.0.0")  
+    ARapp.run(debug=True, port=ARFLASK_PORT, host="0.0.0.0")
