@@ -19,7 +19,6 @@ def get_tasks():
             {"$replaceRoot": {"newRoot": "$tasks"}}
             ])
         lista_tareas = [tarea for tarea in tasks]
-        print(lista_tareas)
         return lista_tareas, 200
 
     else:

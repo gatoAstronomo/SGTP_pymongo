@@ -1,5 +1,6 @@
 from requests import get, post, put, delete
 import re
+import tkinter as tk
 
 SERVER_IP = "44.197.32.169"
 # SERVER_IP = "localhost"
@@ -35,6 +36,7 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     if status == 200:
         print("Tarea insertada exitosamente")
     elif status == 400:
+        print("No fue posible ingresar la tarea")
         print("Ya existe una tarea con ese nombre")
     else:
         print("No fue posible ingresar la tarea")
@@ -96,7 +98,7 @@ def pedir_opción():
         try:
             return int(input("Ingrese una opcion: "))
         except:
-            print("opción invalida")
+            print("Opción invalida")
 
 def pedir_hecha():
     print("La tarea esta completada?")
@@ -196,3 +198,4 @@ def main():
 if __name__ == "__main__":
     main()
     # ruts: 218474383
+    
