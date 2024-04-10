@@ -19,7 +19,6 @@ def get_tasks(rut: str):
         print("Error al descargar sus tareas")
         return []
 
-
 def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     task = {
         "nombre": nombre,
@@ -32,10 +31,11 @@ def insert_task(rut: str, nombre: str, descripcion: str, hecha: str):
     }
     response = post(f'{URL}/tasks', json=data)
     status = response.status_code
+    
     if status == 200:
         print("Tarea insertada exitosamente")
     elif status == 400:
-        print("No fue posible ingresar la tarea")
+        print("Ya existe una tarea con ese nombre")
     else:
         print("No fue posible ingresar la tarea")
     return response
@@ -57,7 +57,7 @@ def update_task(rut: str, nombre: str, new_nombre: str, new_descripcion: str, ne
     if status == 200:
         print("Tarea actualizada exitosamente")
     elif status == 404:
-        print("No fue posible actualizar la tarea")
+        print("No fue posible encontrar la tarea")
     else:
         print("Error al ingresar la tarea")
 
@@ -72,7 +72,7 @@ def delete_task(rut: str, nombre: str):
     if status == 200:
         print("Tarea eliminada exitosamente")
     elif status == 404:
-        print("La tarea no fue encontrada")
+        print("No fue posible encontrar la tarea")
     else:
         print("Error al eliminar la tarea")
 
@@ -111,7 +111,6 @@ def pedir_hecha():
         else:
             print("opción incorrecta")
     
-
 def print_task(task: dict):
     print("Nombre: " + task['nombre'] )
     print("Descripción: " + task['descripcion'] )
@@ -132,7 +131,7 @@ def bienvenida():
     print("")
 
 def print_menu():
-    print()
+    print("")
     print("1) Crear tarea")
     print("2) Listar tareas")
     print("3) Actualizar una tarea")
