@@ -112,13 +112,13 @@ def get_user():
 @ARapp.route("/users", methods=["POST"])  
 def create_user():
     # Recive la información
-    ARrut = request.json['rut']
-    ARnombre_user = request.json['nombre_user']
-    ARcorreo = request.json['correo']
-
-    if not ARrut:
-        print("proporcion un rut")
-        return {'message': 'proporcione un rut'}
+    try:
+        ARrut = request.json['rut']
+        ARnombre_user = request.json['nombre_user']
+        ARcorreo = request.json['correo']
+    except:
+        print("proporcion un rut, nombre_user y correo")
+        return {'message', 'proporcion un rut, nombre_user y correo'}
 
     ARexist_user = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARexist_user:
