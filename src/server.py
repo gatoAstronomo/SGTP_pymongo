@@ -116,6 +116,10 @@ def create_user():
     ARnombre_user = request.json['nombre_user']
     ARcorreo = request.json['correo']
 
+    if not ARrut:
+        print("proporcion un rut")
+        return {'message': 'proporcione un rut'}
+
     ARexist_user = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARexist_user:
         print("el usuario ya existe")
