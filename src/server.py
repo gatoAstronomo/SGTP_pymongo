@@ -95,7 +95,11 @@ def delete_task():
 @ARapp.route("/users", methods=["GET"])  
 def get_user():
     # Recive la información
-    ARrut = request.json['rut']
+    try:
+        ARrut = request.json['rut']
+    except:
+        print("proporcion un rut")
+        return {'message', 'proporcion un rut'}
 
     ARuser = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARuser:
