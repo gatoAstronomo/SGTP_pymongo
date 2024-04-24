@@ -91,7 +91,45 @@ def delete_task():
         return {'message': 'tarea eliminada exitosamente'}, 200
     else:
         return {'message': 'el rut o tarea ingresada no existen'}, 404
+
+@ARapp.route("/users", methods=["GET"])  
+def get_user():
+    # Recive la información
+    ARrut = request.json['rut']
+
+    ARuser = ARmongo.db.tasks.find_one({"rut": ARrut})
+    if ARuser:
+        print("usuario encontrado")
+        return {
+            'rut': ARuser['rut'],
+            'nombre': ARuser['nombre'],
+            'correo': ARuser['correo']
+        }, 200
+    else:
+        print("usuario no encontrado")
+        return {'message': 'Usuario no encontrado'}, 404
     
+@ARapp.route("/users", methods=["POST"])  
+def create_user():
+    # Recive la información
+    ARrut = request.json['rut']
+    ARnombre_user = request.json['nombre_user']
+    ARcorreo = request.json['correo']
+
+    ARexist_user = ARmongo.db.tasks.find_one({"rut": ARrut})
+    if ARexist_user:
+        print("el usuario ya existe")
+        return {'message','el usuario ya existe'},400
+    else:
+        ARmongo.db.tasks.insert_one({
+            'rut': ARrut,
+            'nombre_user': ARnombre_user,
+            'correo': ARcorreo,
+            'tasks': []
+        })
+        print("usuario creado exitosamente")
+        return {'message': 'usuario creado exitosamente'}, 200
+        
 
 if __name__ == "__main__":
     ARapp.run(debug=True, port=ARFLASK_PORT, host="0.0.0.0")
