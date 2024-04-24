@@ -120,7 +120,7 @@ def create_user():
     if ARexist_user:
         print("el usuario ya existe")
         return {'message','el usuario ya existe'},400
-    else:
+    elif not ARexist_user:
         ARmongo.db.tasks.insert_one({
             'rut': ARrut,
             'nombre_user': ARnombre_user,
