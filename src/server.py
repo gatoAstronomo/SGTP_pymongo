@@ -28,6 +28,8 @@ def get_tasks():
 def insert_task():
     # Receiving data
     ARrut = request.json['rut']
+    ARnombre_user = request.json['nombre_user']
+    ARcorreo = request.json['correo']
     ARtask = request.json['task']
     ARnombre = ARtask['nombre']
 
@@ -49,6 +51,8 @@ def insert_task():
     else:
         ARmongo.db.tasks.insert_one({
             'rut': ARrut,
+            'nombre_user': ARnombre_user,
+            'correo': ARcorreo,
             'tasks': [ARtask]
         })
         return {'message': 'rut creado y tarea insertada exitosamente'}, 200
