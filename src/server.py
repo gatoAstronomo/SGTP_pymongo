@@ -102,12 +102,12 @@ def get_user():
         print("usuario encontrado")
         return {
             'rut': ARuser['rut'],
-            'nombre': ARuser['nombre'],
+            'nombre_user': ARuser['nombre_user'],
             'correo': ARuser['correo']
         }, 200
     else:
         print("usuario no encontrado")
-        return {'message': 'Usuario no encontrado'}, 404
+        return {'message': 'usuario no encontrado'}, 404
     
 @ARapp.route("/users", methods=["POST"])  
 def create_user():
