@@ -99,7 +99,7 @@ def get_user():
         ARrut = request.json['rut']
     except:
         print("proporcion un rut")
-        return {'message', 'proporcion un rut'}
+        return {'message': 'proporcion un rut'}
 
     ARuser = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARuser:
@@ -122,7 +122,7 @@ def create_user():
         ARcorreo = request.json['correo']
     except:
         print("proporcion un rut, nombre_user y correo")
-        return {'message', 'proporcion un rut, nombre_user y correo'}
+        return {'message': 'proporcion un rut, nombre_user y correo'}
 
     ARexist_user = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARexist_user:
