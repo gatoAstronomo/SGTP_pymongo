@@ -92,12 +92,10 @@ def delete_task():
     else:
         return {'message': 'el rut o tarea ingresada no existen'}, 404
 
-@ARapp.route("/users", methods=["GET"])  
 def get_user():
-    # Recive la información
-    try:
-        ARrut = request.json['rut']
-    except:
+    # Recibe la información del parámetro de consulta
+    ARrut = request.args.get('rut')
+    if ARrut is None:
         print("proporcion un rut")
         return {'message': 'proporcion un rut'}
 
