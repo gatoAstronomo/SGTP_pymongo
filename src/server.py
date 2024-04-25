@@ -28,7 +28,7 @@ def get_tasks():
 def insert_task():
     # Receiving data
     ARrut = request.json['rut']
-    ARnombre_user = request.json['nombre_user']
+    ARnombreuser = request.json['nombreuser']
     ARcorreo = request.json['correo']
     ARtask = request.json['task']
     ARnombre = ARtask['nombre']
@@ -51,7 +51,7 @@ def insert_task():
     else:
         ARmongo.db.tasks.insert_one({
             'rut': ARrut,
-            'nombre_user': ARnombre_user,
+            'nombreuser': ARnombreuser,
             'correo': ARcorreo,
             'tasks': [ARtask]
         })
@@ -106,7 +106,7 @@ def get_user():
         print("usuario encontrado")
         return {
             'rut': ARuser['rut'],
-            'nombre_user': ARuser['nombre_user'],
+            'nombreuser': ARuser['nombreuser'],
             'correo': ARuser['correo']
         }, 200
     else:
@@ -118,11 +118,11 @@ def create_user():
     # Recive la información
     try:
         ARrut = request.json['rut']
-        ARnombre_user = request.json['nombre_user']
+        ARnombreuser = request.json['nombreuser']
         ARcorreo = request.json['correo']
     except:
-        print("proporcion un rut, nombre_user y correo")
-        return {'message': 'proporcion un rut, nombre_user y correo'}
+        print("proporcion un rut, nombreuser y correo")
+        return {'message': 'proporcion un rut, nombreuser y correo'}
 
     ARexist_user = ARmongo.db.tasks.find_one({"rut": ARrut})
     if ARexist_user:
@@ -131,7 +131,7 @@ def create_user():
     else:
         ARmongo.db.tasks.insert_one({
             'rut': ARrut,
-            'nombre_user': ARnombre_user,
+            'nombreuser': ARnombreuser,
             'correo': ARcorreo,
             'tasks': []
         })
