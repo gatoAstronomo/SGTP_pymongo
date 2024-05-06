@@ -1,6 +1,5 @@
 from requests import get, post, put, delete
 import re
-import tkinter as tk
 
 ARSERVER_IP = "44.197.32.169"
 # SERVER_IP = "localhost"
@@ -20,7 +19,7 @@ def get_tasks(ARrut: str):
         print("Error al descargar sus tareas")
         return []
 
-def insert_task(ARrut: str, ARnombre: str, ARdescripcion: str, ARhecha: str):
+def insert_task(ARrut: str, ARnombreuser: str, ARcorreo: str, ARnombre: str, ARdescripcion: str, ARhecha: str):
     ARtask = {
         "nombre": ARnombre,
         "descripcion": ARdescripcion,
@@ -28,6 +27,8 @@ def insert_task(ARrut: str, ARnombre: str, ARdescripcion: str, ARhecha: str):
     }
     ARdata = {
         "rut": ARrut,
+        "nombreuser": ARnombreuser,
+        "correo": ARcorreo,
         "task": ARtask
     }
     ARresponse = post(f'{ARURL}/tasks', json=ARdata)
@@ -78,6 +79,29 @@ def delete_task(ARrut: str, ARnombre: str):
     else:
         print("Error al eliminar la tarea")
 
+def get_user(ARrut: str):
+    ARdata = {"rut": ARrut}
+    ARresponse = get('http://44.197.32.169:8081/users', json=ARdata)
+    ARstatus = ARresponse.status_code
+    if ARstatus == 200:
+        return ARresponse.json()
+    elif ARstatus == 404:
+        print("No fue posible encontrar su usuario")
+    print("Error al pedir sus datos")
+
+def create_user(ARrut: str, ARnombreuser: str, ARcorreo: str):
+    ARdata = {
+        'rut': ARrut,
+        'nombreuser': ARnombreuser,
+        'correo': ARcorreo
+    }
+    ARresponse = post(f'{ARURL}/users', json=ARdata)
+    ARstatus = ARresponse.status_code
+    if ARstatus == 200:
+        print("El usuario fue creado exitosamente")
+    elif ARstatus == 400:
+        print("El usuario ya EXISTE")
+
 def validar_rut(ARrut):
     ARpatron = r'^\d{7,8}[0-9kK]$'
     if re.match(ARpatron, ARrut):
@@ -105,10 +129,10 @@ def pedir_hecha():
     print("1) Si")
     print("2) No")
     while True:    
-        ARopcion = pedir_opción()
-        if ARopcion == 1:
+        ARopcion = input()
+        if ARopcion == '1':
             return "si"
-        elif ARopcion == 2:
+        elif ARopcion == '2':
             return "no"
         else:
             print("opción incorrecta")
@@ -145,6 +169,8 @@ def menu():
     limpiar_consola()
     bienvenida()
     ARrut = pedir_rut()
+    ARnombreuser = input("Ingrese su nombre: ")
+    ARcorreo = input("Ingrese su correo: ")
     print("El rut ha sido ingresado exitosamente")
 
     while True:
@@ -157,7 +183,7 @@ def menu():
             ARnombre = input("Ingrese el nombre de la tarea: ")
             ARdescripcion = input("Ingrese una descripción: ")
             ARhecha = "no"
-            insert_task(ARrut, ARnombre, ARdescripcion, ARhecha)
+            insert_task(ARrut, ARnombreuser, ARcorreo, ARnombre, ARdescripcion, ARhecha)
         elif ARopcion == 2:
             # Listar tareas
             limpiar_consola()
