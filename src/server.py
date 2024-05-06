@@ -9,7 +9,7 @@ ARmongo = PyMongo(ARapp)
 
 @ARapp.route(f'/tasks', methods=["GET"])
 def get_tasks():
-    ARrut = request.json['rut']
+    ARrut = request.args.get('rut')
     ARexiste_rut = ARmongo.db.tasks.find_one({"rut": ARrut})
 
     if ARexiste_rut:
