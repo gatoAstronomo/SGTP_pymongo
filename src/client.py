@@ -7,8 +7,7 @@ ARSERVER_PORT = 8081
 ARURL = f'http://{ARSERVER_IP}:{ARSERVER_PORT}'
 
 def get_tasks(ARrut: str):
-    ARdata = {'rut': ARrut}
-    ARresponse = get(f'{ARURL}/tasks', json=ARdata)
+    ARresponse = get(f'{ARURL}/tasks?rut={ARrut}')
     ARstatus = ARresponse.status_code
 
     if ARstatus == 200:
