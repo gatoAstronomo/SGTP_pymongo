@@ -27,11 +27,11 @@ def get_tasks():
 @ARapp.route("/tasks", methods=["POST"])
 def insert_task():
     # Receiving data
-    ARrut = request.json['rut']
-    ARnombreuser = request.json['nombreuser']
-    ARcorreo = request.json['correo']
-    ARtask = request.json['task']
-    ARnombre = ARtask['nombre']
+    ARrut = request.json.get('rut')
+    ARnombreuser = request.json.get('nombreuser')
+    ARcorreo = request.json.get('correo')
+    ARtask = request.json.get('task')
+    ARnombre = ARtask.get('nombre')
 
     ARexist_rut = ARmongo.db.tasks.find_one({'rut': ARrut}) 
     ARexist_task = ARmongo.db.tasks.find_one({"rut": ARrut, "tasks.nombre": ARnombre})
